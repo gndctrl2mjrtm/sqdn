@@ -1,0 +1,42 @@
+Should there be filtering in the pull?
+
+ex:
+    s.pull('q1', 'val == 2')
+
+This may increase the complexity dramatically, but will provide a much more general
+way to create complex data graphs.
+
+This essentially creates a query engine though, which is what Spark is for...
+
+What about limited queries? Such as just logical comparison for column values?
+
+That should follow Python logical convention:
+!=, ==, <=, <, >, >=
+
+Maybe also with multi column logical statements?
+
+ex:
+    s.pull('q1', 'val > 2 or id == 0')
+
+What would be the most efficient way to do this?... The can_pull looks for size,
+but if it is running a logical statement, doesn't this then require it to have to
+save the data in a temp storage and then retrieve it in the get.
+
+It would be a cleaner implementation to do the comparison locally, but not nearly
+efficient enough.
+
+What if the data had the filter on it before it was input to the queue?
+- That's not really a good practice because then you lose the data.
+
+Ray-streaming is more of a consolidated way to share big data between ray processes,
+not the query section. Simplicity is key.
+
+-----------------------------------------------------------------------------------------
+
+InMemory: redis
+
+OnDisk: csv readline
+
+spark: parquet
+
+DB: delta
